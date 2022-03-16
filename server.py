@@ -5,10 +5,15 @@ import socket
 import time
 import random
 
+# List of bot names connected
 botlist = []
+# Host IP
 host = socket.gethostbyname(socket.gethostname())
 print(host)
 port = 8080
+
+
+# Create socket and bind
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind((host, port))
 # Sockets from which we expect to read
@@ -16,6 +21,7 @@ inputs = [sock]
 # Sockets to which we expect to write
 outputs = []
 
+# Lists of responses and outputs
 response_list = []
 errors = []
 
@@ -178,6 +184,8 @@ while True:
                     time.sleep(1)
 
                     """
+                    The client will never receive unsolicited messages, so this is not needed -> all messages from clients 
+                    will either come while connecting or inside the broadcast-function
             elif s in outputs:
                 try:
                     data = s.recv(1024).decode()
