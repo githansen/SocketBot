@@ -157,7 +157,10 @@ while True:
             if s is sock:
                 # Accepts connection from socket
                 c, addr = s.accept()
-                name = c.recv(1024).decode()
+                try:
+                    name = c.recv(1024).decode()
+                except Exception as e:
+                    pass
                 # The program only allows 1 instance of each bot
                 if name in botlist:
                     c.close()
