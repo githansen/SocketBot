@@ -170,8 +170,10 @@ while True:
                 # The program only allows 1 instance of each bot
                 if name in botlist:
                     c.close()
+                    read, write, exception = select.select(inputs, outputs, inputs)
                     print("Bot {} is already connected, you can't have 2 instances of one bot in the program".format(
                         name))
+                    time.sleep(1)
                 else:
                     # Updates the lists with the new connection
                     inputs.append(c)
