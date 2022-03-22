@@ -158,7 +158,7 @@ while True:
         # Creates r-list, w-list and x-list and updates it each iteration in the loop
     read, write, exception = select.select(inputs, outputs, inputs)
     # Allows user to connect up to 2 bots between sequences, and not just 1 per msg sequence
-    for o in range(2):
+    for o in range(4):
         for s in read:
             if s is sock:
                 # Accepts connection from socket

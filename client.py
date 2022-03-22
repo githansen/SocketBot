@@ -85,7 +85,6 @@ if botname == "soria":
 # messages that are responses from other clients, and suggestions from the host
 while True:
     x = socket.recv(1024).decode()
-
     # responsex29 signifies a response from another client.
     # Before printing the message, it cuts out the identifier 'responsex29'
     if "responsex29" in x:
