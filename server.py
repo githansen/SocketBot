@@ -59,8 +59,8 @@ def gensuggestions():
                             "climb", "kick", "shoot", "kill", "work", "think", "look", "find",
                             "sing", "drive", "perform", "build", "create", "develop", "code",
                             "laugh", "fly", "cook", "wash", "talk", "hang", "paint", "dive", "buy"])
-    phrases = ["Let's go {}?", "Do you want to {}?", "I feel like going to {} , how about you?",
-               "I haven't gone {} in a long time", "How do you feel about {}?"]
+    phrases = ["Do you want to {}?", "I feel like going to {} , how about you?",
+               "I haven't gone {} in a long time...", "How do you feel about going to {}?"]
 
     phrase = random.choice(phrases).format(action)
     return phrase
