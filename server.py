@@ -10,7 +10,7 @@ botlist = []
 # Host IP
 host = socket.gethostbyname(socket.gethostname())
 print(host)
-port = 8080
+port = int(sys.argv[1])
 
 
 # Create socket and bind
@@ -110,7 +110,7 @@ def broadcast(c, message):
                     f.send(message.encode())
                     f.settimeout(2)
                 except Exception as e:
-                    kickcon(f, "unknown reason")
+                    kickcon(f, "a client side error or disconnection")
                     if len(outputs) == 0:
                         sendback()
                         return
