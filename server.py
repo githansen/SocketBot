@@ -5,6 +5,10 @@ import socket
 import time
 import random
 
+helpcommands =["-h", "--h", "-help", "--help"]
+if sys.argv[1] in helpcommands:
+    print("HElP")
+    exit()
 # List of bot names connected
 botlist = []
 # Host IP

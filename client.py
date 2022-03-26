@@ -3,7 +3,10 @@ import sys
 import socket;
 import response
 
-
+helpcommands =["-h", "--h", "-help", "--help"]
+if sys.argv[1] in helpcommands:
+    print("HElP")
+    exit()
 
 def alice(a):
     # List of verbs that the bot likes, dislikes and hates
