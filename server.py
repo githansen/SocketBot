@@ -7,7 +7,13 @@ import random
 
 helpcommands =["-h", "--h", "-help", "--help"]
 if sys.argv[1] in helpcommands:
-    print("HElP")
+    print("The program must be invoked by taking in the port number as a parameter\n"
+          "Example: 'python server.py 8080' \n"
+          "After starting the program, you have to connect at least 2 clients before starting\n"
+          "When you are ready, you get the option of sending your own messages, or make the program"
+          " generate some at random"
+          "\nDon't worry, instructions will be given along the way."
+          )
     exit()
 # List of bot names connected
 botlist = []

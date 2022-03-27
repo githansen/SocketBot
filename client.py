@@ -5,7 +5,15 @@ import response
 
 helpcommands =["-h", "--h", "-help", "--help"]
 if sys.argv[1] in helpcommands:
-    print("HElP")
+    print("The program must be invoked by giving 3 parameters -> IP-address, port number and bot name\n"
+          "Example: python client.py 192.168.56.1 8080 bob\n"
+          "For it to work, the bot must be one of bots available, or else the server will kick you out\n"
+          "Bot list:\n"
+          "bob \n"
+          "alice\n"
+          "dora\n"
+          "chuck\n"
+          "soria (all replies from user input)")
     exit()
 
 def alice(a):
