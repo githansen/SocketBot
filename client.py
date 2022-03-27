@@ -3,7 +3,7 @@ import sys
 import socket;
 import response
 
-helpcommands =["-h", "--h", "-help", "--help"]
+helpcommands = ["-h", "--h", "-help", "--help"]
 if sys.argv[1] in helpcommands:
     print("The program must be invoked by giving 3 parameters -> IP-address, port number and bot name\n"
           "Example: python client.py 192.168.56.1 8080 bob\n"

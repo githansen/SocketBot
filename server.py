@@ -5,7 +5,7 @@ import socket
 import time
 import random
 
-helpcommands =["-h", "--h", "-help", "--help"]
+helpcommands = ["-h", "--h", "-help", "--help"]
 if sys.argv[1] in helpcommands:
     print("The program must be invoked by taking in the port number as a parameter\n"
           "Example: 'python server.py 8080' \n"
