@@ -26,9 +26,9 @@ port = int(sys.argv[1])
 # Create socket and bind
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind((host, port))
-# Sockets from which we expect to read
+# Sockets to receive msgs from
 inputs = [sock]
-# Sockets to which we expect to write
+# Sockets to send msgs too
 outputs = []
 
 # Lists of responses and outputs
@@ -38,10 +38,13 @@ errors = []
 
 def kickcon(c, reason):
     i = 0
+    # Iterates through the connection-list
     while i < len(outputs):
         if outputs[i] is c:
             name = botlist.pop(i)
+            # Removes the given connection from the lists
             outputs.pop(i)
+            # Outputs [0] = inputs [1] because inputs[0] is the server
             inputs.pop(i + 1)
             c.close()
             errors.append("{} has been kicked out for {}".format(name, reason))
@@ -69,8 +72,7 @@ def gensuggestions():
                             "climb", "kick", "shoot", "kill", "work", "think", "look", "find",
                             "sing", "drive", "perform", "build", "create", "develop", "code",
                             "laugh", "fly", "cook", "wash", "talk", "hang", "paint", "dive", "buy"])
-    phrases = ["Do you want to {}?", "I feel like going to {} , how about you?",
-               "I haven't gone {} in a long time...", "How do you feel about going to {}?"]
+    phrases = ["Do you want to {}?", "I feel like going to {} , how about you?", "How do you feel about going to {}?"]
 
     phrase = random.choice(phrases).format(action)
     return phrase
@@ -213,7 +215,9 @@ while True:
     else:
         # The user decides on input whether he wants a sequence of random messages,
         # kick a user or write their own message to the bots
-        print("You can send a new message now\n'r' = sequence of randomly generated messages(5)\n"
+        print("You can send a new message now...")
+        time.sleep(1)
+        print("'r' = sequence of randomly generated messages(5)\n" 
               "'n' = message from input\n'kick [botname]' "
               "to kick bot from conversation\n'q' to disconnect and terminate the program")
         x = input()
@@ -223,7 +227,11 @@ while True:
                     global_message = gensuggestions()
                     broadcast(sock, global_message)
                     if len(outputs) > 0:
-                        print("Sequence done...")
+                        print("Sequence done.", end='', flush=True)
+                        time.sleep(1)
+                        print(".", end='', flush=True)
+                        time.sleep(1)
+                        print(".")
                         time.sleep(1)
                 time.sleep(1)
 
@@ -231,7 +239,11 @@ while True:
             print("Input message")
             global_message = input()
             broadcast(sock, global_message)
-            print("Sequence done....")
+            print("Sequence done.", end='', flush=True)
+            time.sleep(1)
+            print(".", end='', flush=True)
+            time.sleep(1)
+            print(".")
             time.sleep(1)
         elif "kick" in x:
             kickbot(x)
