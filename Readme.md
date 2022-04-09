@@ -1,2 +1,6 @@
-Fag -> Datanettverk og skytjenester \n
+Fag -> Datanettverk og skytjenester
+
+
+
+
 Oppgave med hensikt å teste kompetanse innen socket-programmering. 
