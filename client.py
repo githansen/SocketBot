@@ -1,6 +1,6 @@
 import random
 import sys
-import socket;
+import socket
 import response
 
 helpcommands = ["-h", "--h", "-help", "--help"]
@@ -16,13 +16,13 @@ if sys.argv[1] in helpcommands:
           "soria (all replies from user input)")
     exit()
 
+
 def alice(a):
     # List of verbs that the bot likes, dislikes and hates
     dislikes = ["cry", "hike", "run", "walk", "swim", "sleep", "cry", "fight", "drink", "party", "climb", "kick"]
     likes = ["shoot", "kill", "work", "think", "look", "find", "sing", "drive", "perform", "build", "create"]
     hates = ["develop", "code", "laugh", "fly", "cook", "wash", "talk", "hang", "paint", "dive", "buy"]
     return response.findresponse(likes, dislikes, hates, a)
-
 
 
 def bob(a):
@@ -40,13 +40,13 @@ def dora(a):
     dislikes = ["develop", "code", "laugh", "fly", "cook", "wash", "talk", "hang", "paint", "dive", "buy"]
     return response.findresponse(likes, dislikes, hates, a)
 
+
 def chuck(a):
     # List of verbs that the bot likes, dislikes and hates
     likes = ["cry", "hike", "run", "walk", "swim", "sleep", "cry", "fight", "drink", "party", "climb", "kick"]
     dislikes = ["shoot", "kill", "work", "think", "look", "find", "sing", "drive", "perform", "build", "create"]
     hates = ["develop", "code", "laugh", "fly", "cook", "wash", "talk", "hang", "paint", "dive", "buy"]
     return response.findresponse(likes, dislikes, hates, a)
-    #return "f you"
 
 
 def soria():
@@ -88,11 +88,10 @@ socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socket.connect((ip, port))
 socket.send(botname.encode())
 
-
 if botname == "soria":
     soria()
 
-# The client will receive 3 types of messages -> messages to see if the client is still connected,
+# The client will receive 2 types of messages ->
 # messages that are responses from other clients, and suggestions from the host
 while True:
     x = socket.recv(1024).decode()
@@ -101,14 +100,12 @@ while True:
     if "responsex29" in x:
         x = x.replace("responsex29", "")
         print(x)
-    # connectedx29 signifies a message to check if client is connected
-    # If it doesn't have the identifier, we know it's a suggestion from the server/host,
-    # so we will print it out and send a response to the suggestion
+
     else:
-        x = x.replace("?", "")
-        sending = botname + ": " + findbot(botname, x)
-        print("New sequence... ")
+        print("\nNew sequence... ")
         print("\nHost:" + x)
+        x = x.replace("?", "") # Removes the question mark while processing the suggestion and finding response
+        sending = botname + ": " + findbot(botname, x) # Calls on findbot() to generate the response
         socket.send(sending.encode())
-        sending = sending.replace(botname + ":", "")
+        sending = sending.replace(botname + ":", "") # Formats the response before printing it out
         print("Me:", sending)

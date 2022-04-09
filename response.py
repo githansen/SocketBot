@@ -1,5 +1,7 @@
 import random
 
+
+# Lists of responses
 positiveresponses = ["{} sounds great, i would love that", "I havent gone {} in a long time, sounds fun",
                      "Good idea, i would love to go {}",
                      "I like your idea, maybe we can do something else after {}?"]
@@ -11,6 +13,7 @@ neutralresponses = ["{} is not my cup of tea, but I guess I can give it a try",
                     "If {} is the only option, sure.. but I would prefer to do something else"]
 
 previous_suggestions = [];
+
 
 def findresponse(likes, dislikes, hates, a):
     # Makes an iterable list containing all the words sent from the server

@@ -15,51 +15,40 @@ if sys.argv[1] in helpcommands:
           "\nDon't worry, instructions will be given along the way."
           )
     exit()
-# List of bot names connected
-botlist = []
-# Host IP
-host = socket.gethostbyname(socket.gethostname())
-print(host)
+
+botlist = []  # List of bot names connected
+
+host = socket.gethostbyname(socket.gethostname())  # Host IP
 port = int(sys.argv[1])
 
-
-# Create socket and bind
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Create socket and bind
 sock.bind((host, port))
-# Sockets to receive msgs from
-inputs = [sock]
-# Sockets to send msgs too
-outputs = []
+inputs = [sock]  # Sockets to receive msgs from
+outputs = []  # Sockets to send msgs too
 
-# Lists of responses and outputs
-response_list = []
-errors = []
+response_list = []  # List of responses
+errors = []  # List of error messages
 
 
 def kickcon(c, reason):
     i = 0
-    # Iterates through the connection-list
-    while i < len(outputs):
+    while i < len(outputs):  # Iterates through the connection-list
         if outputs[i] is c:
             name = botlist.pop(i)
-            # Removes the given connection from the lists
-            outputs.pop(i)
-            # Outputs [0] = inputs [1] because inputs[0] is the server
-            inputs.pop(i + 1)
+            outputs.pop(i)  # Removes the given connection from the lists
+            inputs.pop(i + 1)  # Outputs [0] = inputs [1] because inputs[0] is the server
             c.close()
             errors.append("{} has been kicked out for {}".format(name, reason))
         i += 1
 
 
 def kickbot(name):
-    i = 0
     for i in range(len(outputs)):
         if botlist[i] in name:
             outputs[i].close()
-            botlist.pop(i)
-            outputs.pop(i)
-            # Inputs[0] is never empty, so outputs[1] = inputs[0]
-            inputs.pop(i + 1)
+            botlist.pop(i)  # Removes name from botlist
+            outputs.pop(i)  # Removes from list of outputs
+            inputs.pop(i + 1)  # Inputs[0] is never empty, so outputs[1] = inputs[0]
             print("{} has been kicked out".format(name.split()[1]))
             time.sleep(2)
             return
@@ -72,21 +61,19 @@ def gensuggestions():
                             "climb", "kick", "shoot", "kill", "work", "think", "look", "find",
                             "sing", "drive", "perform", "build", "create", "develop", "code",
                             "laugh", "fly", "cook", "wash", "talk", "hang", "paint", "dive", "buy"])
-    phrases = ["Do you want to {}?", "I feel like going to {} , how about you?", "How do you feel about going to {}?"]
+    phrases = ["Do you want to {}?", "I feel like going to {} , how about you?", "How do you feel about going to {}?"] # Phrases to send
 
-    phrase = random.choice(phrases).format(action)
+    phrase = random.choice(phrases).format(action) # Generates a message to send.
     return phrase
 
 
-# Sends back all responses to all clients except the one it came from
-def sendback():
-    # Iterates through the response list
-    for f in range(len(response_list)):
-        # Prints the response
+def sendback():  # Sends back all responses to all clients except the one it came from
+
+    for f in range(len(response_list)):  # Iterates through the response list
         print(response_list[f])
         time.sleep(1)
-        # Before sending, we append the code responsex29 so the client knows it's a response from another client
-        sending = response_list[f] + " responsex29"
+        sending = response_list[f] + " responsex29"  # Before sending, we append the code responsex29 so the client
+        # knows it's a response from another client
         for s in write:
             # A response should not be sent back to where it came from
             if write.index(s) != f:
@@ -95,7 +82,6 @@ def sendback():
                     s.send(sending.encode())
                 except:
                     pass
-    # Prints error messages
     for x in errors:
         print(x)
         time.sleep(1)
@@ -145,31 +131,17 @@ def broadcast(c, message):
                             return
     sendback()
     read, write, exception = select.select(inputs, outputs, inputs)
-    """
-    # If the message is from one of the clients
-    else:
-        print(message)
-        time.sleep(1)
-        # Iterates through list of clients ready to receive
-        for f in outputs:
-            # "All responses should be sent back out to all clients except the one who sent it." Sock is not a client
-            if f is not sock and f is not c:
-                message = message + " responsex29"
-                try:
-                    f.send(message.encode())
-                except Exception as e:
-                    pass
-"""
+
 
 
 sock.listen()
 while True:
 
     if len(outputs) == 0:
-        print("No clients are connected, the program will wait until you connect clients")
+        print("No clients are connected, the program will wait until you have at least 2 connected clients")
         # Creates r-list, w-list and x-list and updates it each iteration in the loop
     read, write, exception = select.select(inputs, outputs, inputs)
-    # Allows user to connect up to 2 bots between sequences, and not just 1 per msg sequence
+    # Allows user to connect up to 4 bots between sequences, and not just 1 per msg sequence
     for o in range(4):
         for s in read:
             if s is sock:
@@ -179,8 +151,8 @@ while True:
                     name = c.recv(1024).decode()
                 except Exception as e:
                     pass
-                # The program only allows 1 instance of each bot
-                if name in botlist:
+
+                if name in botlist: # The program only allows 1 instance of each bot
                     c.close()
                     read, write, exception = select.select(inputs, outputs, inputs)
                     print("Bot {} is already connected, you can't have 2 instances of one bot in the program".format(
@@ -217,12 +189,12 @@ while True:
         # kick a user or write their own message to the bots
         print("You can send a new message now...")
         time.sleep(1)
-        print("'r' = sequence of randomly generated messages(5)\n" 
+        print("'r' = sequence of randomly generated messages(5)\n"
               "'n' = message from input\n'kick [botname]' "
               "to kick bot from conversation\n'q' to disconnect and terminate the program")
         x = input()
         if x == "r":
-            if len(outputs) > 0:
+            if len(outputs) > 0: # Checks if list is not empty
                 for t in range(5):
                     global_message = gensuggestions()
                     broadcast(sock, global_message)
@@ -239,6 +211,7 @@ while True:
             print("Input message")
             global_message = input()
             broadcast(sock, global_message)
+            # Next lines create a kind of countdown with the ...
             print("Sequence done.", end='', flush=True)
             time.sleep(1)
             print(".", end='', flush=True)
@@ -246,7 +219,7 @@ while True:
             print(".")
             time.sleep(1)
         elif "kick" in x:
-            kickbot(x)
+            kickbot(x) # calls function to kick the bot
         elif x == "q":
             sock.close()
             break;
