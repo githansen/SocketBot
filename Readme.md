@@ -1,5 +1,8 @@
 Fag -> Datanettverk og skytjenester
+
 Poengsum: 59/60
+
+
 Karakter: A
 
 
